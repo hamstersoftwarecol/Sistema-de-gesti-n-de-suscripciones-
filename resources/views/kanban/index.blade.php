@@ -16,7 +16,7 @@
         <div x-show="saving" x-cloak class="absolute -top-8 right-0 text-xs text-gray-500">{{ __('Saving...') }}</div>
         <div class="-mx-3 flex snap-x gap-4 overflow-x-auto px-3 pb-4 sm:mx-0 sm:px-0">
             @foreach ($columns as $column)
-                <section class="flex w-[85vw] max-w-xs shrink-0 snap-start flex-col rounded-xl bg-gray-200/60 dark:bg-gray-900/70 sm:w-80">
+                <section class="flex w-[85vw] max-w-xs shrink-0 snap-start flex-col rounded-xl bg-gray-200/60 dark:bg-gray-900/70 sm:w-80 xl:w-auto xl:min-w-[15rem] xl:max-w-none xl:flex-1">
                     <header class="flex items-center justify-between gap-2 px-3 py-3">
                         <div class="flex min-w-0 items-center gap-2">
                             <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background: {{ $column->color }}"></span>

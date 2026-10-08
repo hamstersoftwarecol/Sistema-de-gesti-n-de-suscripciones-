@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ActivityLog;
+use App\Models\Setting;
 use App\Models\User;
 use App\Support\Installer;
 use Illuminate\Database\Seeder;
@@ -15,8 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         ActivityLog::$enabled = false;
+        Setting::flushCache();
 
-        $this->callWith(BaseDataSeeder::class, ['locale' => config('app.locale', 'es')]);
+        $this->callWith(BaseDataSeeder::class, ['locale' => config('app.install_locale', 'es')]);
 
         User::query()->firstOrCreate(['email' => 'admin@demo.com'], [
             'name' => 'Administrador',

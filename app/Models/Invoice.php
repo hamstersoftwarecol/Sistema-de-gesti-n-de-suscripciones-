@@ -196,7 +196,9 @@ class Invoice extends Model
     /** Sync amount_paid and status with the completed payments recorded against the invoice. */
     public function refreshPaymentStatus(): self
     {
-        $paid = (float) $this->payments()->where('status', Payment::STATUS_COMPLETED)->sum('amount');
+        $completed = $this->payments()->where('status', Payment::STATUS_COMPLETED);
+        $paid = (float) (clone $completed)->sum('amount');
+        $lastPaymentDate = (clone $completed)->max('paid_at');
 
         $status = $this->status;
 
@@ -213,7 +215,7 @@ class Invoice extends Model
         $this->forceFill([
             'amount_paid' => round($paid, 2),
             'status' => $status,
-            'paid_at' => $status === self::STATUS_PAID ? ($this->paid_at ?? now()) : null,
+            'paid_at' => $status === self::STATUS_PAID ? ($lastPaymentDate ?? $this->paid_at ?? now()) : null,
         ])->save();
 
         // A fully paid renewal invoice brings a past-due subscription back to active.

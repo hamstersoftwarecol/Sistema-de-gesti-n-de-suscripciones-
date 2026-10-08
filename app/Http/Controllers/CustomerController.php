@@ -156,6 +156,11 @@ class CustomerController extends Controller
 
     protected function validated(Request $request, ?Customer $customer = null): array
     {
+        // Sellers always own the customers they register.
+        if ($request->user()->isSeller()) {
+            $request->merge(['seller_id' => $request->user()->seller?->id]);
+        }
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'company' => ['nullable', 'string', 'max:255'],
@@ -172,11 +177,6 @@ class CustomerController extends Controller
             'status' => ['required', Rule::in(Customer::STATUSES)],
             'notes' => ['nullable', 'string', 'max:5000'],
         ] + Customer::customFieldRules());
-
-        // Sellers always own the customers they register.
-        if ($request->user()->isSeller()) {
-            $data['seller_id'] = $request->user()->seller?->id;
-        }
 
         return collect($data)->except('custom_fields')->all();
     }

@@ -12,7 +12,7 @@
     <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
             <p class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">{{ $label }}</p>
-            <p class="mt-1 truncate text-2xl font-bold text-gray-900 dark:text-white">{{ $value }}</p>
+            <p class="mt-1 break-words text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">{{ $value }}</p>
         </div>
         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg {{ $iconColors[$color] ?? $iconColors['primary'] }}">
             <x-icon :name="$icon" />

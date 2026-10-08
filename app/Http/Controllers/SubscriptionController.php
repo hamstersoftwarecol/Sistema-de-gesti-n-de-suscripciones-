@@ -67,6 +67,10 @@ class SubscriptionController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        if ($request->user()->isSeller()) {
+            $request->merge(['seller_id' => $request->user()->seller?->id]);
+        }
+
         $data = $request->validate([
             'customer_id' => ['required', 'exists:customers,id'],
             'plan_id' => ['required', 'exists:plans,id'],
@@ -85,10 +89,6 @@ class SubscriptionController extends Controller
         $this->ensureVisible($customer);
 
         $plan = Plan::query()->findOrFail($data['plan_id']);
-
-        if ($request->user()->isSeller()) {
-            $data['seller_id'] = $request->user()->seller?->id;
-        }
 
         $subscription = $this->billing->subscribe([
             'customer_id' => $customer->id,
@@ -137,6 +137,10 @@ class SubscriptionController extends Controller
     {
         $this->ensureVisible($subscription);
 
+        if ($request->user()->isSeller()) {
+            $request->merge(['seller_id' => $subscription->seller_id]);
+        }
+
         $data = $request->validate([
             'plan_id' => ['required', 'exists:plans,id'],
             'seller_id' => ['nullable', 'exists:sellers,id'],
@@ -149,10 +153,6 @@ class SubscriptionController extends Controller
             'status' => ['required', Rule::in(Subscription::STATUSES)],
             'notes' => ['nullable', 'string', 'max:5000'],
         ] + Subscription::customFieldRules());
-
-        if ($request->user()->isSeller()) {
-            unset($data['seller_id']);
-        }
 
         $subscription->update(collect($data)->except('custom_fields')->all() + ['discount' => $data['discount'] ?? 0]);
         $subscription->saveCustomFields($request->input('custom_fields'));

@@ -14,8 +14,8 @@
         </x-slot:actions>
     </x-page-header>
 
-    <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
-        <x-stat :label="__('MRR')" :value="money($summary['mrr'])" icon="refresh" :hint="__('Monthly recurring revenue')" class="col-span-2 sm:col-span-1" />
+    <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 2xl:grid-cols-6">
+        <x-stat :label="__('MRR')" :value="money($summary['mrr'])" icon="refresh" :hint="__('Monthly recurring revenue')" class="col-span-2 md:col-span-1" />
         <x-stat :label="__('ARR')" :value="money($summary['arr'])" icon="chart" color="blue" :hint="__('Annual run rate')" />
         <x-stat :label="__('Active subscriptions')" :value="$summary['active_subscriptions']" icon="check-circle" color="green"
                 :hint="trans_choice(':count in trial|:count in trial', $summary['trial_subscriptions'], ['count' => $summary['trial_subscriptions']])" />
@@ -52,7 +52,7 @@
                 <div class="h-72">
                     <canvas x-data="chart('doughnut', @js([
                         'labels' => array_keys($byStatus),
-                        'datasets' => [['data' => array_values($byStatus)]],
+                        'datasets' => [['data' => array_values($byStatus), 'colors' => ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#f43f5e', '#94a3b8']]],
                     ]), { legend: true })"></canvas>
                 </div>
             </div>

@@ -80,6 +80,9 @@ return [
 
     'locale' => env('APP_LOCALE', 'es'),
 
+    // Locale from .env, untouched by the runtime settings (used by the seeders).
+    'install_locale' => env('APP_LOCALE', 'es'),
+
     /*
     |--------------------------------------------------------------------------
     | Available Locales

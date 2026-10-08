@@ -3,7 +3,13 @@
     "name": "hamstersoftware/sistema-gestion-suscripciones",
     "type": "project",
     "description": "ERP de gestión de suscripciones con Laravel, SQLite, Breeze y Gemini AI.",
-    "keywords": ["laravel", "subscriptions", "billing", "erp", "gemini"],
+    "keywords": [
+        "laravel",
+        "subscriptions",
+        "billing",
+        "erp",
+        "gemini"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -42,7 +48,7 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
-            "@php artisan migrate --force",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "npm install",
             "npm run build"
         ],
@@ -52,6 +58,7 @@
         ],
         "test": [
             "@php artisan config:clear --ansi",
+            "@php scripts/extract-translations.php es pt",
             "@php artisan test"
         ],
         "post-autoload-dump": [
@@ -71,6 +78,9 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "demo": [
+            "@php artisan migrate:fresh --seed --force"
         ]
     },
     "extra": {

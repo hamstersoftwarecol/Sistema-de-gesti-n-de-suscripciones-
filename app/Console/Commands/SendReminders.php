@@ -14,7 +14,12 @@ class SendReminders extends Command
 
     public function handle(ReminderService $reminders): int
     {
-        $date = $this->option('date') ? Carbon::parse($this->option('date')) : today();
+        // --date simulates the whole clock so timestamps and de-duplication stay consistent.
+        if ($this->option('date')) {
+            Carbon::setTestNow(Carbon::parse($this->option('date'))->setTimeFrom(now()));
+        }
+
+        $date = today();
 
         $summary = $reminders->run($date);
 

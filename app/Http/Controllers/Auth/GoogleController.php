@@ -50,6 +50,11 @@ class GoogleController extends Controller
             return redirect()->route('login')->withErrors(['email' => __('Google authentication failed. Please try again.')]);
         }
 
+        // Only trust e-mail addresses Google has verified before matching existing accounts.
+        if (($googleUser->user['email_verified'] ?? $googleUser->user['verified_email'] ?? true) === false || blank($googleUser->getEmail())) {
+            return redirect()->route('login')->withErrors(['email' => __('Google authentication failed. Please try again.')]);
+        }
+
         $user = User::query()->where('google_id', $googleUser->getId())->first()
             ?? User::query()->where('email', $googleUser->getEmail())->first();
 

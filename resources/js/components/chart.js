@@ -50,7 +50,7 @@ export default (type, data, options = {}) => ({
                 ...dataset,
                 borderColor: isPie ? undefined : color,
                 backgroundColor: isPie
-                    ? colors
+                    ? dataset.colors || colors
                     : dataset.fill
                       ? color.replace(')', ' / 0.12)').replace('rgb(', 'rgb(')
                       : color,

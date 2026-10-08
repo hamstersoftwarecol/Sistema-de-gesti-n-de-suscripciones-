@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\ActivityLog;
 use App\Models\Setting;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -59,7 +60,7 @@ class BackupService
         return $name;
     }
 
-    /** @return Collection<int, array{name: string, size: int, date: \Illuminate\Support\Carbon}> */
+    /** @return Collection<int, array{name: string, size: int, date: Carbon}> */
     public function all(): Collection
     {
         return collect(File::files($this->directory()))
@@ -67,7 +68,7 @@ class BackupService
             ->map(fn ($file) => [
                 'name' => $file->getFilename(),
                 'size' => $file->getSize(),
-                'date' => \Illuminate\Support\Carbon::createFromTimestamp($file->getMTime()),
+                'date' => Carbon::createFromTimestamp($file->getMTime()),
             ])
             ->sortByDesc('date')
             ->values();

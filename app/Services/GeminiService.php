@@ -6,6 +6,7 @@ use App\Exceptions\GeminiException;
 use App\Models\AiConversation;
 use App\Models\AiMessage;
 use App\Models\Customer;
+use App\Models\EmailTemplate;
 use App\Models\Setting;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
@@ -195,7 +196,7 @@ class GeminiService
     public function draftEmail(string $purpose): string
     {
         $prompt = "Write a short, friendly and professional transactional e-mail for a subscription company. Purpose: {$purpose}.\n"
-            .'You may use these placeholders literally: '.implode(' ', \App\Models\EmailTemplate::placeholders())."\n"
+            .'You may use these placeholders literally: '.implode(' ', EmailTemplate::placeholders())."\n"
             .'Return only the plain-text body, no subject line, no Markdown.';
 
         return $this->generate([['role' => 'user', 'text' => $prompt]], $this->languageInstruction(), 0.7)['text'];

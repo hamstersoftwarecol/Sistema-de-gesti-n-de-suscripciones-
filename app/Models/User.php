@@ -47,6 +47,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /** Mirror the database defaults so freshly created models are complete. */
+    protected $attributes = [
+        'role' => self::ROLE_STAFF,
+        'theme' => 'system',
+        'is_active' => true,
+    ];
+
     protected function casts(): array
     {
         return [
