@@ -78,11 +78,39 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'es'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Available Locales
+    |--------------------------------------------------------------------------
+    |
+    | Languages users can pick from the language switcher. Translations live in
+    | the lang/{locale}.json files.
+    |
+    */
+
+    'available_locales' => [
+        'es' => 'Español',
+        'en' => 'English',
+        'pt' => 'Português',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Installation State
+    |--------------------------------------------------------------------------
+    |
+    | When null the setup wizard checks for the storage/app/installed flag file.
+    | Set APP_INSTALLED=true|false to force the state (used by the test suite).
+    |
+    */
+
+    'installed' => env('APP_INSTALLED'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'es_ES'),
 
     /*
     |--------------------------------------------------------------------------
